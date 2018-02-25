@@ -1,6 +1,8 @@
 ;
 ; gcf - greatest common factor using Euclid's mothod
 ;
+; Greatest common factor using Euclid's method with subtraction. Mod would be faster.
+;
 
 section .data
     num1:   DD 12635235
@@ -10,26 +12,26 @@ section .data
 section .text
 global _start
 
+
 _start:
-    mov edi, [num1]
-    mov esi, [num2]
+    mov edi, [num1]     ; edi holds the number which should be larger
+    mov esi, [num2]     ; esi holds the number which should be smaller
 
 .gcdloop:
-    test edi, edi
-    jz .finished
+    test edi, edi       ; continue while we still have a non-negative to test
+    jz .finished        ; if the number is zero, we're done
 
-    cmp edi, esi
-    jg .postswap
+    cmp edi, esi        ; test for larger number in edi
+    jg .postswap        ; if not, swap them
 
-    ; swap edi and esi
-    mov eax, edi
+    mov eax, edi        ; swap edi and esi
     mov edi, esi
     mov esi, eax
 
 .postswap:
-    sub edi, esi
+    sub edi, esi        ; larger number is now larger minus smaller
 
-    jmp .gcdloop
+    jmp .gcdloop        ; repeat
 
 .finished:
     nop
