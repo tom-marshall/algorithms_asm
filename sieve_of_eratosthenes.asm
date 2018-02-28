@@ -1,3 +1,7 @@
+;
+; "Sieve of Eratosthenes" is a method of finding prime numbers up to a certain limit
+;
+
 %define LIMIT  2000             ; upper limit to test to
 %define HALFLIMIT  LIMIT / 2    ; take half as a macro
 
