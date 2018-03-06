@@ -4,6 +4,8 @@
 ; Write an assembly program to determine if a string stored in memory is a
 ; palindrome. A palindrome is a string which is the same after being reversed,
 ; like "refer" . Use at least one repeat instruction.
+;
+; Note: For simplicity, I'm assuming the character set is ASCII
 
 
 %define LCBIT 0x20
