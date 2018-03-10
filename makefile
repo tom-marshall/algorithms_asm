@@ -9,3 +9,7 @@ soe:
 pal:
 	yasm -f elf64 -g dwarf2 palindrome.asm -l palindrome.lst
 	ld -o palindrome palindrome.o
+
+pt:
+	yasm -f elf64 -g dwarf2 pytharean-triples.asm -l pytharean-triples.lst
+	gcc -o pytharean-triples pytharean-triples.o
