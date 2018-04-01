@@ -24,9 +24,7 @@ _start:
     cmp edi, esi        ; test for larger number in edi
     jg .postswap        ; if not, swap them
 
-    mov eax, edi        ; swap edi and esi
-    mov edi, esi
-    mov esi, eax
+    xchg edi, esi       ; swap edi and esi
 
 .postswap:
     sub edi, esi        ; larger number is now larger minus smaller
