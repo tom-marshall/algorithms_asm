@@ -48,13 +48,13 @@ main:
 ;   size_t base32len(const char *src)                                          |
 ;                                                                              |
 ; registers:                                                                   |
-;   rdi: pointer to c style string                                             |
+;   rdi: pointer to source string                                              |
 ;                                                                              |
 ; returns:                                                                     |
 ;   length of base32 string                                                    |
 ;------------------------------------------------------------------------------;
 base32len:
-    push rdi
+    push rdi                ; save rdi since scasb advances it
 
     xor eax, eax            ; search for '0'
     mov rcx, -1             ; 64 byte uint max
@@ -63,18 +63,18 @@ base32len:
     mov rax, -2             ; 64 byte uint max - 1
     sub rax, rcx            ; find difference
 
-    pop rdi
+    pop rdi                 ; restore rdi
 
-    shl rax, 3
+    shl rax, 3              ; get # of bits in the byte count
 
-    xor edx, edx
-    mov ecx, 5
-    div ecx
+    xor edx, edx            ; clear for divide
+    mov ecx, 5              ; 5 bits per character
+    div ecx                 ; divide
 
-    mov rcx, rax
-    inc rcx
-    test rdx, rdx
-    cmovnz rax, rcx
+    mov rcx, rax            ; copy product into rcx
+    inc rcx                 ; increase by one
+    test rdx, rdx           ; test for remainder
+    cmovnz rax, rcx         ; if so, we need extra space
 
     ret
 
@@ -106,11 +106,7 @@ encode_base32:
     xor edx, edx            ; keep track of character count
 
 .whileloop:
-    cmp byte [rsi], 0       ; make sure we aren't at a null character
-    jz .whiledone
-
-    mov ecx, 5              ; 5 iterations for converting 5 8 byte groups
-                            ;   to 8 5 bytes groups
+    mov ecx, 5              ; convert 5 8 byte groups to 8 5 bytes groups
 
 .forloop1:
     lodsb                   ; load the next source byte
